@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface OrderRepository {
     Order save(Order order);
 
-    Optional<TrackingId> findByTrackingId(TrackingId trackingId);
+    Optional<Order> findByTrackingId(TrackingId trackingId);
 }
