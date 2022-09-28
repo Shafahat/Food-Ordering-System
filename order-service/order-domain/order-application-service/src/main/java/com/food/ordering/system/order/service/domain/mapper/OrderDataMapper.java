@@ -13,6 +13,7 @@ import com.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class OrderDataMapper {
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(createOrderCommand.getItems().stream()
                         .map(orderItem -> new Product(new ProductId(orderItem.getProductId())))
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 
@@ -57,7 +58,7 @@ public class OrderDataMapper {
     }
 
     private List<OrderItem> orderItemsToOrderItemEntities(
-            List<OrderItem> items) {
+            List<com.food.ordering.system.order.service.domain.dto.create.OrderItem> items) {
         return items.stream()
                 .map(orderItem ->
                     OrderItem.builder()
