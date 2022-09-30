@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.serviec.application.exception.handler;
+package com.food.ordering.system.application.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
