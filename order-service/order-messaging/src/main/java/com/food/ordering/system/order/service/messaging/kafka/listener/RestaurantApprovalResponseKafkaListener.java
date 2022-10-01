@@ -37,11 +37,13 @@ public class RestaurantApprovalResponseKafkaListener implements
 
         messages.forEach(message -> {
             if (OrderApprovalStatus.APPROVED.equals(message.getOrderApprovalStatus())) {
-                log.info("Processing successful restaurant approval response for order id: {}", message.getOrderId());
+                log.info("Processing successful restaurant approval response for order id: {}",
+                        message.getOrderId().toString());
                 listener.orderApproved(mapper.
                         restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(message));
             } else if (OrderApprovalStatus.REJECTED.equals(message.getOrderApprovalStatus())) {
-                log.info("Processing rejected restaurant approval response for order id: {}", message.getOrderId());
+                log.info("Processing rejected restaurant approval response for order id: {}", message.getOrderId()
+                        .toString());
                 listener.orderRejected(mapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(message));
             }
         });

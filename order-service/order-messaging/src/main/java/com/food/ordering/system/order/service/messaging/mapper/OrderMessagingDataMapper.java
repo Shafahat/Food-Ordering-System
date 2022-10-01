@@ -88,7 +88,7 @@ public class OrderMessagingDataMapper {
     restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel message) {
         return RestaurantApprovalResponse.builder()
                 .id(message.getId().toString())
-                .orderId(message.getOrderId())
+                .orderId(message.getOrderId().toString())
                 .restaurantId(message.getRestaurantId().toString())
                 .sagaId(message.getSagaId().toString())
                 .createdAt(message.getCreatedAt())

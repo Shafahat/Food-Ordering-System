@@ -219,7 +219,7 @@ public class RestaurantApprovalResponseAvroModel extends org.apache.avro.specifi
    * Gets the value of the 'orderId' field.
    * @return The value of the 'orderId' field.
    */
-  public String getOrderId() {
+  public java.util.UUID getOrderId() {
     return orderId;
   }
 
