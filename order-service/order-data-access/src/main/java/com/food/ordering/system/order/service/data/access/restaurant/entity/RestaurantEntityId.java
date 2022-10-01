@@ -1,6 +1,5 @@
 package com.food.ordering.system.order.service.data.access.restaurant.entity;
 
-import com.food.ordering.system.domain.valueobject.RestaurantId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
