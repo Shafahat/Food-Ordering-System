@@ -29,7 +29,6 @@ import java.util.UUID;
 @Entity
 public class OrderItemEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Id

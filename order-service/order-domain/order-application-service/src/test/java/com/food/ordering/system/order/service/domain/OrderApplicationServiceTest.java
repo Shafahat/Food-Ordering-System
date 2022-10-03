@@ -9,7 +9,7 @@ import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
-import com.food.ordering.system.order.service.domain.dto.create.OrderItem;
+import com.food.ordering.system.order.service.domain.dto.create.OrderItemDto;
 import com.food.ordering.system.order.service.domain.entity.Customer;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Product;
@@ -75,21 +75,21 @@ public class OrderApplicationServiceTest {
                 .city("Paris")
                 .build();
 
-        OrderItem orderItem = OrderItem.builder()
+        OrderItemDto orderItemDto = OrderItemDto.builder()
                 .productId(PRODUCT_ID)
                 .quantity(1)
                 .price(new BigDecimal("50.00"))
                 .subTotal(new BigDecimal("50.00"))
                 .build();
 
-        OrderItem orderItem2 = OrderItem.builder()
+        OrderItemDto orderItemDto2 = OrderItemDto.builder()
                 .productId(PRODUCT_ID)
                 .quantity(3)
                 .price(new BigDecimal("50.00"))
                 .subTotal(new BigDecimal("150.00"))
                 .build();
 
-        OrderItem orderItemWithWrongPrice = OrderItem.builder()
+        OrderItemDto orderItemDtoWithWrongPrice = OrderItemDto.builder()
                 .productId(PRODUCT_ID)
                 .quantity(1)
                 .price(new BigDecimal("60.00"))
@@ -101,7 +101,7 @@ public class OrderApplicationServiceTest {
                 .restaurantId(RESTAURANT_ID)
                 .address(orderAddress)
                 .price(PRICE)
-                .items(List.of(orderItem, orderItem2))
+                .items(List.of(orderItemDto, orderItemDto2))
                 .build();
 
         createOrderCommandWrongPrice = CreateOrderCommand.builder()
@@ -109,7 +109,7 @@ public class OrderApplicationServiceTest {
                 .restaurantId(RESTAURANT_ID)
                 .address(orderAddress)
                 .price(WRONG_PRICE)
-                .items(List.of(orderItem, orderItem2))
+                .items(List.of(orderItemDto, orderItemDto2))
                 .build();
 
         createOrderCommandWrongProductPrice = CreateOrderCommand.builder()
@@ -117,7 +117,7 @@ public class OrderApplicationServiceTest {
                 .restaurantId(RESTAURANT_ID)
                 .address(orderAddress)
                 .price(WRONG_PRODUCT_PRICE)
-                .items(List.of(orderItemWithWrongPrice, orderItem2))
+                .items(List.of(orderItemDtoWithWrongPrice, orderItemDto2))
                 .build();
 
         Customer customer = new Customer();
@@ -131,18 +131,18 @@ public class OrderApplicationServiceTest {
                 productPrice);
 
         Restaurant restaurant = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
+                .id(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(List.of(product1, product2))
                 .active(true)
                 .build();
 
-        Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
+        Order order = orderDataMapper.mapToOrder(createOrderCommand);
         order.setId(new OrderId(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
 
         when(restaurantRepository.findRestaurantInformation(orderDataMapper
-                .createOrderCommandToRestaurant(createOrderCommand))).thenReturn(Optional.of(restaurant));
+                .mapToRestaurant(createOrderCommand))).thenReturn(Optional.of(restaurant));
 
         when(orderRepository.save(any(Order.class))).thenReturn(order);
     }
@@ -174,13 +174,13 @@ public class OrderApplicationServiceTest {
     @Test
     public void testCreateOrderWithPassiveRestaurant() {
         Restaurant passiveRestaurant = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
+                .id(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(List.of(product1, product2))
                 .active(false)
                 .build();
 
         when(restaurantRepository.findRestaurantInformation(orderDataMapper
-                .createOrderCommandToRestaurant(createOrderCommand))).thenReturn(Optional.of(passiveRestaurant));
+                .mapToRestaurant(createOrderCommand))).thenReturn(Optional.of(passiveRestaurant));
 
         OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
                 () -> orderApplicationService.createOrder(createOrderCommand));

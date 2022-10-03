@@ -20,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/orders", produces = "application/vnd.api.v1+json")
+@RequestMapping(value = "/api/v1/orders", produces = "application/vnd.api.v1+json")
 public class OrderController {
     private final OrderApplicationService applicationService;
 
@@ -33,8 +33,8 @@ public class OrderController {
         return ResponseEntity.ok(createOrderResponse);
     }
 
-    @GetMapping("{/trackingId}")
-    public ResponseEntity<TrackOrderResponse> getOrderByTrackingId(@PathVariable UUID trackingId) {
+    @GetMapping("/{trackingId}")
+    public ResponseEntity<TrackOrderResponse> getOrderByTrackingId(@PathVariable("trackingId") UUID trackingId) {
         TrackOrderQuery trackOrderQuery = TrackOrderQuery.builder().orderTrackingId(trackingId).build();
         TrackOrderResponse trackOrderResponse = applicationService.trackOrder(trackOrderQuery);
         log.info("Returning order status with tracking id: {}", trackOrderResponse.getOrderTrackingId());

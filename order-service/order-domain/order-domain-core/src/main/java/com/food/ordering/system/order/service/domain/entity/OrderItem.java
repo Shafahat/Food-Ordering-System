@@ -4,13 +4,15 @@ import com.food.ordering.system.domain.entity.BaseEntity;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class OrderItem extends BaseEntity<OrderItemId> {
+    private OrderId orderId;
     private final Product product;
-    private final Integer quantity;
+    private final int quantity;
     private final Money price;
     private final Money subTotal;
-    private OrderId orderId;
 
     void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
         this.orderId = orderId;
@@ -18,8 +20,9 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     }
 
     boolean isPriceValid() {
-        return price.isGreaterThanZero() && price.equals(product.getPrice())
-                && price.multiply(quantity).equals(subTotal);
+        return price.isGreaterThanZero() &&
+               price.getAmount().compareTo(product.getPrice().getAmount()) == 0 &&
+               price.multiply(quantity).equals(subTotal);
     }
 
     private OrderItem(Builder builder) {
@@ -33,7 +36,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     public static Builder builder() {
         return new Builder();
     }
-
 
     public OrderId getOrderId() {
         return orderId;
@@ -54,7 +56,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     public Money getSubTotal() {
         return subTotal;
     }
-
 
     public static final class Builder {
         private OrderItemId orderItemId;

@@ -15,26 +15,25 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class OrderGlobalExceptionHandler extends GlobalExceptionHandler {
 
-    @ResponseBody
-    @ExceptionHandler(value = OrderDomainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO handleException(OrderDomainException orderDomainException) {
-        log.error(orderDomainException.getMessage(), orderDomainException);
+    @ExceptionHandler(value = {OrderDomainException.class})
+    @ResponseBody
+    public ErrorDTO handleOrderDomainException(OrderDomainException ex) {
+        log.error("Error occurred: {}", ex.getMessage());
         return ErrorDTO.builder()
                 .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(orderDomainException.getMessage())
+                .message(ex.getMessage())
                 .build();
     }
 
-    @ResponseBody
-    @ExceptionHandler(value = OrderDomainException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorDTO handleException(OrderNotFoundException orderNotFoundException) {
-        log.error(orderNotFoundException.getMessage(), orderNotFoundException);
+    @ExceptionHandler(value = {OrderNotFoundException.class})
+    @ResponseBody
+    public ErrorDTO handleOrderDomainException(OrderNotFoundException ex) {
+        log.error("Error occurred: {}", ex.getMessage());
         return ErrorDTO.builder()
                 .code(HttpStatus.NOT_FOUND.getReasonPhrase())
-                .message(orderNotFoundException.getMessage())
+                .message(ex.getMessage())
                 .build();
     }
-
 }

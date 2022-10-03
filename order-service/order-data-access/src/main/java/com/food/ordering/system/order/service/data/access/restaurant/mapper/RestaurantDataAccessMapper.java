@@ -32,7 +32,7 @@ public class RestaurantDataAccessMapper {
                 .toList();
 
         return Restaurant.builder()
-                .restaurantId(new RestaurantId(restaurantEntity.getRestaurantId()))
+                .id(new RestaurantId(restaurantEntity.getRestaurantId()))
                 .products(restaurantProducts)
                 .active(restaurantEntity.getRestaurantActive())
                 .build();

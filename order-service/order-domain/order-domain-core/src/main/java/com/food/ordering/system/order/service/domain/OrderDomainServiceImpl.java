@@ -24,27 +24,25 @@ public class OrderDomainServiceImpl implements OrderDomainService {
         setOrderProductInformation(order, restaurant);
         order.validateOrder();
         order.initializeOrder();
-        log.info("Order with id: {} is initiated", order.getId().getValue());
         return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
     private void setOrderProductInformation(Order order, Restaurant restaurant) {
-        order.getItems().forEach(
-            orderItem -> restaurant.getProducts().forEach(
-                product -> {
-                    Product currentProduct = orderItem.getProduct();
-                    if (currentProduct.equals(product)) {
-                        currentProduct.updateWithConfirmedNameAndPrice(product.getName(), product.getPrice());
-                    }
-                }
-            )
-        );
+        order.getItems()
+                .forEach(orderItem -> restaurant.getProducts()
+                        .forEach(product -> {
+                            Product currentProduct = orderItem.getProduct();
+                            if (currentProduct.equals(product)) {
+                                currentProduct.updateWithConfirmedNameAndPrice(product.getName(), product.getPrice());
+                            }
+                        })
+                );
     }
 
     private void validateRestaurant(Restaurant restaurant) {
-        if (!restaurant.isActive()) {
-            throw new OrderDomainException("Restaurant with id: " + restaurant.getId().getValue()
-                    + " currently is not active!");
+        if (Boolean.FALSE.equals(restaurant.isActive())) {
+            throw new OrderDomainException("Restaurant is not active, please try again later. " +
+                    "Restaurant id: " + restaurant.getId());
         }
     }
 

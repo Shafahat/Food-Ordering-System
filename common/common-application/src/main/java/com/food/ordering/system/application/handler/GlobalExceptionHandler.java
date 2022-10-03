@@ -16,46 +16,45 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseBody
-    @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDTO handleException(Exception exception) {
-        log.error(exception.getMessage(), exception);
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseBody
+    public ErrorDTO handleException(Exception ex) {
+        log.error("Error occurred: {}", ex.getMessage());
         return ErrorDTO.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .message("Unexpected error!")
+                .message("Unknown error occurred!")
                 .build();
     }
 
-    @ResponseBody
-    @ExceptionHandler(value = ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO handleException(ValidationException validationException) {
+    @ExceptionHandler(value = {ValidationException.class})
+    @ResponseBody
+    public ErrorDTO handleOrderDomainException(ValidationException ex) {
         ErrorDTO errorDTO;
 
-        if (validationException instanceof ConstraintViolationException) {
-            String violations = extractViolationsFromException((ConstraintViolationException) validationException);
-            log.error(violations, validationException);
+        if (ex instanceof ConstraintViolationException) {
+            String violations = extractViolationsFromException((ConstraintViolationException) ex);
+            log.error("Error occurred: {}", violations);
             errorDTO = ErrorDTO.builder()
                     .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
                     .message(violations)
                     .build();
         } else {
-            String exceptionMessage = validationException.getMessage();
-            log.error(exceptionMessage, validationException);
+            log.error("Error occurred: {}", ex.getMessage());
             errorDTO = ErrorDTO.builder()
                     .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                    .message(exceptionMessage)
+                    .message(ex.getMessage())
                     .build();
         }
 
         return errorDTO;
     }
 
-    private String extractViolationsFromException(ConstraintViolationException validationException) {
-        return validationException.getConstraintViolations()
+    private String extractViolationsFromException(ConstraintViolationException ex) {
+        return ex.getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining("--"));
+                .collect(Collectors.joining("->"));
     }
 }
