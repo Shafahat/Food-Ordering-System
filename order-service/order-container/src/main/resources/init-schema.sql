@@ -17,7 +17,7 @@ CREATE TABLE 'order'.orders (
     price numeric(10, 2) NOT NULL,
     order_status order_status NOT NULL,
     failure_messages character varying COLLATE pg_catalog.'default',
-    CONSTRAINT orders_pkey PRIMARY KEY (id),
+    CONSTRAINT orders_pkey PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS 'order'.order_items CASCADE;
