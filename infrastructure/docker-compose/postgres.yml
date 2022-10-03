@@ -7,11 +7,11 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: nplusone
+      POSTGRES_DB: postgres
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     volumes:
       - "./volumes/db/postgresql/data:/var/lib/postgresql/data"
-    restart: unless-stopped
+    restart: always
     networks:
       - ${GLOBAL_NETWORK:-kafka}
