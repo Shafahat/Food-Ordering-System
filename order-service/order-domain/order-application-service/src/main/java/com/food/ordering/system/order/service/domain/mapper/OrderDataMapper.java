@@ -31,7 +31,6 @@ public class OrderDataMapper {
                 .products(createOrderCommand.getItems().stream()
                         .map(orderItemDto -> new Product(new ProductId(orderItemDto.getProductId())))
                         .toList())
-                .active(true)
                 .build();
     }
 

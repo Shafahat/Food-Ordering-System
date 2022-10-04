@@ -3,8 +3,8 @@ package com.food.ordering.system.payment.service.messaging.kafka.listener;
 import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.food.ordering.system.kafka.consumer.KafkaConsumerService;
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
-import com.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
 import com.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
+import com.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -44,7 +44,6 @@ public class PaymentRequestKafkaListener implements KafkaConsumerService<Payment
                 log.info("Cancelling payment for order id: {}", request.getOrderId());
                 listener.cancelPayment(mapper.mapToPaymentRequest(request));
             }
-
         });
     }
 }

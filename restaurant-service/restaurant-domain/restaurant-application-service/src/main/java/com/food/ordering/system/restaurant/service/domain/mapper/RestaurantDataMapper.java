@@ -8,7 +8,6 @@ import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApproval
 import com.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
 import com.food.ordering.system.restaurant.service.domain.entity.Product;
 import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
-import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

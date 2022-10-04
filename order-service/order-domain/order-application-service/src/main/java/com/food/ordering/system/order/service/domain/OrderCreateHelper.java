@@ -5,15 +5,15 @@ import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.ProductId;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
+import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
+import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
+import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
 import com.food.ordering.system.payment.service.domain.entity.Order;
 import com.food.ordering.system.payment.service.domain.entity.Product;
 import com.food.ordering.system.payment.service.domain.entity.Restaurant;
 import com.food.ordering.system.payment.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.payment.service.domain.exception.OrderDomainException;
-import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
-import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
-import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
-import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -48,23 +48,7 @@ public class OrderCreateHelper {
 
 
         checkCustomer(createOrderCommand.getCustomerId());
-//        Restaurant restaurant = checkRestaurant(createOrderCommand);
-        //todo refactor that
-//        Restaurant restaurant = orderDataMapper.mapToRestaurant(createOrderCommand);
-        Money productPrice = new Money(createOrderCommand.getItems().get(0).getPrice());
-
-        Product product1 = new Product(new ProductId(createOrderCommand.getItems().get(0).getProductId()),
-                "product-1", productPrice);
-
-//        Product product2 = new Product(new ProductId(createOrderCommand.getItems().get(1).getProductId()),
-//                "product-1", productPrice);
-
-        Restaurant restaurant = Restaurant.builder()
-                .id(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(product1))
-                .active(true)
-                .build();
-
+        Restaurant restaurant = checkRestaurant(createOrderCommand);
         Order order = orderDataMapper.mapToOrder(createOrderCommand);
         OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);
         saveOrder(order);

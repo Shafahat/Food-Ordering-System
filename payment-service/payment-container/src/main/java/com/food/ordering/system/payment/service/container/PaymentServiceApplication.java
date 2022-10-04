@@ -1,4 +1,4 @@
-package com.food.ordering.system.payment.service.application;
+package com.food.ordering.system.payment.service.container;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

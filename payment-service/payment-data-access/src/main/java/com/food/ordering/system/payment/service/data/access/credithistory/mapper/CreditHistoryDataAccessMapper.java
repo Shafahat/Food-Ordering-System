@@ -2,9 +2,9 @@ package com.food.ordering.system.payment.service.data.access.credithistory.mappe
 
 import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
+import com.food.ordering.system.payment.service.data.access.credithistory.entity.CreditHistoryEntity;
 import com.food.ordering.system.payment.service.domain.entity.CreditHistory;
 import com.food.ordering.system.payment.service.domain.valueobject.CreditHistoryId;
-import com.food.ordering.system.payment.service.data.access.credithistory.entity.CreditHistoryEntity;
 import org.springframework.stereotype.Component;
 
 @Component
