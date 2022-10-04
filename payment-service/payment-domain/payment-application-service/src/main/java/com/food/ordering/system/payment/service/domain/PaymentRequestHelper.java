@@ -1,12 +1,11 @@
 package com.food.ordering.system.payment.service.domain;
 
 import com.food.ordering.system.domain.valueobject.CustomerId;
-import com.food.ordering.system.order.service.domain.PaymentDomainService;
-import com.food.ordering.system.order.service.domain.entity.CreditEntry;
-import com.food.ordering.system.order.service.domain.entity.CreditHistory;
-import com.food.ordering.system.order.service.domain.entity.Payment;
-import com.food.ordering.system.order.service.domain.event.PaymentEvent;
-import com.food.ordering.system.order.service.domain.exception.PaymentNotFoundException;
+import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
+import com.food.ordering.system.payment.service.domain.entity.CreditHistory;
+import com.food.ordering.system.payment.service.domain.entity.Payment;
+import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
+import com.food.ordering.system.payment.service.domain.exception.PaymentNotFoundException;
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.food.ordering.system.payment.service.domain.exception.PaymentApplicationServiceException;
 import com.food.ordering.system.payment.service.domain.map.PaymentDataMapper;

@@ -1,6 +1,6 @@
 package com.food.ordering.system.payment.service.data.access.credithistory.entity;
 
-import com.food.ordering.system.order.service.domain.valueobject.TransactionType;
+import com.food.ordering.system.payment.service.domain.valueobject.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

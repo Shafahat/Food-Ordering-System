@@ -2,8 +2,8 @@ package com.food.ordering.system.payment.service.data.access.creditentry.mapper;
 
 import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
-import com.food.ordering.system.order.service.domain.entity.CreditEntry;
-import com.food.ordering.system.order.service.domain.valueobject.CreditEntryId;
+import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
+import com.food.ordering.system.payment.service.domain.valueobject.CreditEntryId;
 import com.food.ordering.system.payment.service.data.access.creditentry.entity.CreditEntryEntity;
 import org.springframework.stereotype.Component;
 

@@ -11,9 +11,6 @@
 
     <artifactId>order-application-service</artifactId>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <!-- Local -->
         <dependency>
