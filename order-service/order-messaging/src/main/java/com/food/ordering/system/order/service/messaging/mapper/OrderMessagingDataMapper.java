@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMessagingDataMapper {
 
-    public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderCreatedEvent orderCreatedEvent) {
+    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCreatedEvent orderCreatedEvent) {
         Order order = orderCreatedEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
@@ -36,7 +36,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
+    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
         Order order = orderCancelledEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
@@ -49,8 +49,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalRequestAvroModel
-    orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
+    public RestaurantApprovalRequestAvroModel mapToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
         Order order = orderPaidEvent.getOrder();
 
         return RestaurantApprovalRequestAvroModel.newBuilder()
@@ -70,7 +69,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponseAvroModel message) {
+    public PaymentResponse mapToPaymentResponse(PaymentResponseAvroModel message) {
         return PaymentResponse.builder()
                 .id(UUID.randomUUID().toString())
                 .sagaId("")
@@ -84,8 +83,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalResponse
-    restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel message) {
+    public RestaurantApprovalResponse mapToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel message) {
         return RestaurantApprovalResponse.builder()
                 .id(message.getId().toString())
                 .orderId(message.getOrderId().toString())

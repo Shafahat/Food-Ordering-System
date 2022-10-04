@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.kafka;
+package com.food.ordering.system.kafka.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -8,10 +8,10 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Slf4j
 @Component
-public class OrderKafkaMessageHelper {
+public class KafkaMessageHelper {
 
     public <T> ListenableFutureCallback<SendResult<String, T>>
-    getKafkaCallBack(String topic, T request, String orderId, String requestAvroModelName) {
+    getKafkaCallBack(String topic, T request, String id, String avroModelName) {
         return new ListenableFutureCallback<SendResult<String, T>>() {
 
             @Override
@@ -19,7 +19,7 @@ public class OrderKafkaMessageHelper {
                 RecordMetadata metadata = result.getRecordMetadata();
                 log.info("Received successful response from Kafka for order id: {}" +
                                 "Topic: {} Partition: {} Offset: {} Timestamp: {}",
-                        orderId,
+                        id,
                         metadata.topic(),
                         metadata.partition(),
                         metadata.offset(),
@@ -28,7 +28,7 @@ public class OrderKafkaMessageHelper {
 
             @Override
             public void onFailure(Throwable ex) {
-                log.error("Error while sending " + requestAvroModelName + " message {} to topic {}", request.toString(),
+                log.error("Error while sending " + avroModelName + " message {} to topic {}", request.toString(),
                         topic, ex);
             }
         };

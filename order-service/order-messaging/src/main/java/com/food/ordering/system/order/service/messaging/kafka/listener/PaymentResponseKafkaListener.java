@@ -42,14 +42,14 @@ public class PaymentResponseKafkaListener implements KafkaConsumerService<Paymen
                 log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
 
                 paymentResponseMessageListener.paymentCompleted(mapper
-                        .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
+                        .mapToPaymentResponse(paymentResponseAvroModel));
 
             } else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus() ||
                     PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()) {
 
                 log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
                 paymentResponseMessageListener.paymentCancelled(mapper
-                        .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
+                        .mapToPaymentResponse(paymentResponseAvroModel));
 
             }
         });

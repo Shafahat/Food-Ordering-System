@@ -40,11 +40,11 @@ public class RestaurantApprovalResponseKafkaListener implements
                 log.info("Processing successful restaurant approval response for order id: {}",
                         message.getOrderId().toString());
                 listener.orderApproved(mapper.
-                        restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(message));
+                        mapToRestaurantApprovalResponse(message));
             } else if (OrderApprovalStatus.REJECTED.equals(message.getOrderApprovalStatus())) {
                 log.info("Processing rejected restaurant approval response for order id: {}", message.getOrderId()
                         .toString());
-                listener.orderRejected(mapper.restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(message));
+                listener.orderRejected(mapper.mapToRestaurantApprovalResponse(message));
             }
         });
     }
