@@ -136,6 +136,11 @@
                 <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common-data-access</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
 
             <!-- Local Infra Layer -->
             <dependency>

@@ -11,11 +11,11 @@
 
     <artifactId>payment-service</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>payment-domain</module>
         <module>payment-data-access</module>
         <module>payment-container</module>
         <module>payment-messaging</module>
     </modules>
-
 </project>

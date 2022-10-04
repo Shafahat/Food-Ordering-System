@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.data.access.restaurant.entity;
+package com.food.ordering.system.common.data.access.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class RestaurantEntityId implements Serializable {
     private UUID restaurantId;
     private UUID productId;
@@ -22,13 +21,15 @@ public class RestaurantEntityId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RestaurantEntityId that = (RestaurantEntityId) o;
-        return restaurantId.equals(that.restaurantId) && productId.equals(that.productId);
+        if (!(o instanceof RestaurantEntityId that)) return false;
+        if (!restaurantId.equals(that.restaurantId)) return false;
+        return productId.equals(that.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(restaurantId, productId);
+        int result = restaurantId.hashCode();
+        result = 31 * result + productId.hashCode();
+        return result;
     }
 }

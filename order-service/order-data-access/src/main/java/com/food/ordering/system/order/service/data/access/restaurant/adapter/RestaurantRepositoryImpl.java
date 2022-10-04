@@ -1,10 +1,10 @@
 package com.food.ordering.system.order.service.data.access.restaurant.adapter;
 
-import com.food.ordering.system.order.service.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.common.data.access.entity.RestaurantEntity;
+import com.food.ordering.system.common.data.access.repository.RestaurantJpaRepository;
 import com.food.ordering.system.order.service.data.access.restaurant.mapper.RestaurantDataAccessMapper;
-import com.food.ordering.system.order.service.data.access.restaurant.repository.RestaurantJpaRepository;
-import com.food.ordering.system.payment.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import com.food.ordering.system.payment.service.domain.entity.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +20,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
-        List<UUID> restaurantProducts = mapper.restaurantToRestaurantProducts(restaurant);
+        List<UUID> restaurantProducts = mapper.mapToRestaurantProducts(restaurant);
 
         Optional<List<RestaurantEntity>> restaurantEntities = jpaRepository
                 .findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(), restaurantProducts);
 
-        return restaurantEntities.map(mapper::restaurantEntityToRestaurant);
+        return restaurantEntities.map(mapper::mapToRestaurant);
     }
 }
