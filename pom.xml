@@ -80,11 +80,11 @@
             </dependency>
 
             <!-- Local Payment Microservice-->
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>payment-domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.food.ordering.system</groupId>-->
+<!--                <artifactId>payment-domain</artifactId>-->
+<!--                <version>${project.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>payment-domain-core</artifactId>
