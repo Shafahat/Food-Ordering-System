@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@Slf4j
 public class Order extends AggregateRoot<OrderId> {
     public static final String FAILURE_MESSAGE_DELIMITER = ",";
 
