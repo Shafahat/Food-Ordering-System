@@ -52,18 +52,18 @@ public class PaymentRequestHelper {
     @Transactional
     public PaymentEvent persistCancelPayment(PaymentRequest paymentRequest) {
         log.info("Received payment cancel event for id : {}", paymentRequest.getOrderId());
-        Payment payment = paymentRepository.findByOrderId
-                (UUID.fromString(paymentRequest.getOrderId())).orElseThrow(
-                () -> new PaymentNotFoundException("Payment not found"));
+        Payment payment = getPayment(paymentRequest);
         CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
         List<CreditHistory> creditHistory = getCreditHistory(payment.getCustomerId());
         List<String> failureMessage = new ArrayList<>();
+
         PaymentEvent paymentEvent = paymentDomainService.validateAndCancelledPayment
                 (payment, creditEntry, creditHistory, failureMessage);
 
         persistDbObject(payment, creditEntry, creditHistory, failureMessage);
         return paymentEvent;
     }
+
 
     private void persistDbObject(Payment payment,
                                  CreditEntry creditEntry,
@@ -74,6 +74,11 @@ public class PaymentRequestHelper {
             creditEntryRepository.save(creditEntry);
             creditHistoryRepository.save(creditHistory.get(creditHistory.size() - 1));
         }
+    }
+
+    private Payment getPayment(PaymentRequest paymentRequest) {
+        return paymentRepository.findByOrderId(UUID.fromString(paymentRequest.getOrderId())).orElseThrow(
+                () -> new PaymentNotFoundException("Payment not found"));
     }
 
     private List<CreditHistory> getCreditHistory(CustomerId customerId) {
