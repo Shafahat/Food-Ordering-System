@@ -36,6 +36,9 @@ order-service:
   payment-response-topic-name: payment-response
   restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
+  outbox-scheduler-fixed-rate: 10000
+  outbox-scheduler-initial-delay: 10000
+
 
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092

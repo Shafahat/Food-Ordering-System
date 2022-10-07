@@ -139,7 +139,7 @@
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>common-data-access</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- Local Infra Layer -->
@@ -166,7 +166,12 @@
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>saga</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>outbox</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- Remote -->
