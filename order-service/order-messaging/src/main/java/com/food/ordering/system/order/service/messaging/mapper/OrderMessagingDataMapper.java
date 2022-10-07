@@ -31,6 +31,7 @@ public class OrderMessagingDataMapper {
                 .setSagaId(UUID.randomUUID())
                 .setOrderId(order.getId().getValue())
                 .setCustomerId(order.getCustomerId().getValue())
+                .setPrice(order.getPrice().getAmount())
                 .setCreatedAt(orderCreatedEvent.getCreateAt().toInstant())
                 .setPaymentOrderStatus(PaymentOrderStatus.PENDING)
                 .build();

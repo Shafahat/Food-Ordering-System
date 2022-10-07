@@ -29,19 +29,6 @@ public class OrderCreateHelper {
 
     @Transactional
     public OrderCreatedEvent persistOrder(CreateOrderCommand createOrderCommand) {
-        log.info("{}", createOrderCommand.getPrice());
-        log.info("{}", createOrderCommand.getCustomerId());
-        log.info("{}", createOrderCommand.getRestaurantId());
-        log.warn("{}", createOrderCommand.getItems().get(0).getPrice() + ", "
-                + createOrderCommand.getItems().get(0).getProductId() + ", "
-                + createOrderCommand.getItems().get(0).getQuantity() + ", "
-                + createOrderCommand.getItems().get(0).getSubTotal());
-        log.warn("{}", createOrderCommand.getItems().get(1).getPrice() + ", "
-                + createOrderCommand.getItems().get(1).getProductId() + ", "
-                + createOrderCommand.getItems().get(1).getQuantity() + ", "
-                + createOrderCommand.getItems().get(1).getSubTotal());
-
-
         checkCustomer(createOrderCommand.getCustomerId());
         Restaurant restaurant = checkRestaurant(createOrderCommand);
         Order order = orderDataMapper.mapToOrder(createOrderCommand);
