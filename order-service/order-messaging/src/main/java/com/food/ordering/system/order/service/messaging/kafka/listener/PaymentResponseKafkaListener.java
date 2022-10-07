@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class PaymentResponseKafkaListener implements KafkaConsumerService<PaymentResponseAvroModel> {
-    private final PaymentResponseMessageListener paymentResponseMessageListener;
+    private final PaymentResponseMessageListener listener;
     private final OrderMessagingDataMapper mapper;
 
     @Override
@@ -29,28 +29,20 @@ public class PaymentResponseKafkaListener implements KafkaConsumerService<Paymen
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-
         log.info("{} number of payment responses received with keys: {}, partitions:{} and offsets: {}",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),
                 offsets.toString());
 
-        messages.forEach(paymentResponseAvroModel -> {
-            if (PaymentStatus.COMPLETED == paymentResponseAvroModel.getPaymentStatus()) {
-
-                log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
-
-                paymentResponseMessageListener.paymentCompleted(mapper
-                        .mapToPaymentResponse(paymentResponseAvroModel));
-
-            } else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus() ||
-                    PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()) {
-
-                log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
-                paymentResponseMessageListener.paymentCancelled(mapper
-                        .mapToPaymentResponse(paymentResponseAvroModel));
-
+        messages.forEach(response -> {
+            if (PaymentStatus.COMPLETED == response.getPaymentStatus()) {
+                log.info("Processing successful payment for order id: {}", response.getOrderId());
+                listener.paymentCompleted(mapper.mapToPaymentResponse(response));
+            } else if (PaymentStatus.CANCELLED == response.getPaymentStatus() ||
+                    PaymentStatus.FAILED == response.getPaymentStatus()) {
+                log.info("Processing unsuccessful payment for order id: {}", response.getOrderId());
+                listener.paymentCancelled(mapper.mapToPaymentResponse(response));
             }
         });
     }

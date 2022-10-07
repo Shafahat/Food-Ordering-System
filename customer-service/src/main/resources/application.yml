@@ -14,16 +14,16 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
 #    generate-ddl: true
-    hibernate:
-      ddl-auto: update
+#    hibernate:
+#      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
-        generate_statistics: true
+#        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+#        generate_statistics: true
         format_sql: true
   sql:
     init:
-      platform: postgres
+      mode: always
       schema-locations: classpath:init-schema.sql
       data-locations: classpath:init-data.sql
-      mode: always
+      platform: postgres

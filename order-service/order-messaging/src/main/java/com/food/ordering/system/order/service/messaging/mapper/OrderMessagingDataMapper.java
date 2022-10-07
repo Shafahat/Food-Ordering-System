@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMessagingDataMapper {
 
-    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCreatedEvent orderCreatedEvent) {
-        Order order = orderCreatedEvent.getOrder();
+    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCreatedEvent event) {
+        Order order = event.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID())
@@ -32,26 +32,26 @@ public class OrderMessagingDataMapper {
                 .setOrderId(order.getId().getValue())
                 .setCustomerId(order.getCustomerId().getValue())
                 .setPrice(order.getPrice().getAmount())
-                .setCreatedAt(orderCreatedEvent.getCreateAt().toInstant())
-                .setPaymentOrderStatus(PaymentOrderStatus.PENDING)
+                .setCreatedAt(event.getCreateAt().toInstant())
+                .setPaymentOrderStatus(PaymentOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }
 
-    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
-        Order order = orderCancelledEvent.getOrder();
+    public PaymentRequestAvroModel mapToPaymentRequestAvroModel(OrderCancelledEvent event) {
+        Order order = event.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID())
                 .setSagaId(UUID.randomUUID())
                 .setOrderId(order.getId().getValue())
                 .setCustomerId(order.getCustomerId().getValue())
-                .setCreatedAt(orderCancelledEvent.getCreateAt().toInstant())
-                .setPaymentOrderStatus(PaymentOrderStatus.CANCELLED)
+                .setCreatedAt(event.getCreateAt().toInstant())
+                .setPaymentOrderStatus(PaymentOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }
 
-    public RestaurantApprovalRequestAvroModel mapToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
-        Order order = orderPaidEvent.getOrder();
+    public RestaurantApprovalRequestAvroModel mapToRestaurantApprovalRequestAvroModel(OrderPaidEvent event) {
+        Order order = event.getOrder();
 
         return RestaurantApprovalRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID())
@@ -65,34 +65,34 @@ public class OrderMessagingDataMapper {
                                 .build())
                         .collect(Collectors.toList()))
                 .setPrice(order.getPrice().getAmount())
-                .setCreatedAt(orderPaidEvent.getCreateAt().toInstant())
-                .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+                .setCreatedAt(event.getCreateAt().toInstant())
+                .setRestaurantOrderStatus(RestaurantOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }
 
-    public PaymentResponse mapToPaymentResponse(PaymentResponseAvroModel message) {
+    public PaymentResponse mapToPaymentResponse(PaymentResponseAvroModel response) {
         return PaymentResponse.builder()
                 .id(UUID.randomUUID().toString())
                 .sagaId("")
-                .paymentId(message.getPaymentId().toString())
-                .customerId(message.getCustomerId().toString())
-                .orderId(message.getOrderId().toString())
-                .price(message.getPrice())
-                .createdAt(message.getCreatedAt())
-                .paymentStatus(PaymentStatus.valueOf(message.getPaymentStatus().name()))
-                .failureMessages(message.getFailureMessages())
+                .paymentId(response.getPaymentId().toString())
+                .customerId(response.getCustomerId().toString())
+                .orderId(response.getOrderId().toString())
+                .price(response.getPrice())
+                .createdAt(response.getCreatedAt())
+                .paymentStatus(PaymentStatus.valueOf(response.getPaymentStatus().name()))
+                .failureMessages(response.getFailureMessages())
                 .build();
     }
 
-    public RestaurantApprovalResponse mapToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel message) {
+    public RestaurantApprovalResponse mapToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel response) {
         return RestaurantApprovalResponse.builder()
-                .id(message.getId().toString())
-                .orderId(message.getOrderId().toString())
-                .restaurantId(message.getRestaurantId().toString())
-                .sagaId(message.getSagaId().toString())
-                .createdAt(message.getCreatedAt())
-                .orderApprovalStatus(OrderApprovalStatus.valueOf(message.getOrderApprovalStatus().name()))
-                .failureMessages(message.getFailureMessages())
+                .id(response.getId().toString())
+                .orderId(response.getOrderId().toString())
+                .restaurantId(response.getRestaurantId().toString())
+                .sagaId(response.getSagaId().toString())
+                .createdAt(response.getCreatedAt())
+                .orderApprovalStatus(OrderApprovalStatus.valueOf(response.getOrderApprovalStatus().name()))
+                .failureMessages(response.getFailureMessages())
                 .build();
     }
 }
