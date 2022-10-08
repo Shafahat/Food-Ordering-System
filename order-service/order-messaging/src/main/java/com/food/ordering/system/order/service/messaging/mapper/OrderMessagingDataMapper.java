@@ -32,7 +32,7 @@ public class OrderMessagingDataMapper {
                 .setOrderId(order.getId().getValue())
                 .setCustomerId(order.getCustomerId().getValue())
                 .setPrice(order.getPrice().getAmount())
-                .setCreatedAt(event.getCreateAt().toInstant())
+                .setCreatedAt(event.getCreatedAt().toInstant())
                 .setPaymentOrderStatus(PaymentOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }
@@ -45,7 +45,7 @@ public class OrderMessagingDataMapper {
                 .setSagaId(UUID.randomUUID())
                 .setOrderId(order.getId().getValue())
                 .setCustomerId(order.getCustomerId().getValue())
-                .setCreatedAt(event.getCreateAt().toInstant())
+                .setCreatedAt(event.getCreatedAt().toInstant())
                 .setPaymentOrderStatus(PaymentOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }
@@ -65,7 +65,7 @@ public class OrderMessagingDataMapper {
                                 .build())
                         .collect(Collectors.toList()))
                 .setPrice(order.getPrice().getAmount())
-                .setCreatedAt(event.getCreateAt().toInstant())
+                .setCreatedAt(event.getCreatedAt().toInstant())
                 .setRestaurantOrderStatus(RestaurantOrderStatus.valueOf(order.getOrderStatus().name()))
                 .build();
     }

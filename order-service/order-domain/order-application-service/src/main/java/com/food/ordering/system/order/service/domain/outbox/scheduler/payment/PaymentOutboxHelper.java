@@ -1,5 +1,9 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler.payment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.food.ordering.system.domain.valueobject.OrderStatus;
+import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
@@ -22,6 +26,7 @@ import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 @RequiredArgsConstructor
 public class PaymentOutboxHelper {
     private final PaymentOutboxRepository repository;
+    private final ObjectMapper mapper;
 
     @Transactional(readOnly = true)
     public Optional<List<OrderPaymentOutboxMessage>> getPaymentOutboxMessageByOutboxStatusAndSagaStatus(
@@ -42,6 +47,35 @@ public class PaymentOutboxHelper {
             throw new OrderDomainException("Failed to save outbox message id : " + message.getId());
         }
         log.info("Outbox message id : {} saved successfully", message.getId());
+    }
+
+
+    @Transactional
+    public void savePaymentOutboxMessage(OrderPaymentEventPayload payload,
+                                         OrderStatus orderStatus,
+                                         SagaStatus sagaStatus,
+                                         OutboxStatus outboxStatus,
+                                         UUID sagaId) {
+        save(OrderPaymentOutboxMessage.builder()
+                .id(UUID.randomUUID())
+                .sagaId(sagaId)
+                .createdAt(payload.getCreatedAt())
+                .type(ORDER_SAGA_NAME)
+                .payload(createPayload(payload))
+                .outboxStatus(outboxStatus)
+                .orderStatus(orderStatus)
+                .sagaStatus(sagaStatus)
+                .build());
+    }
+
+    private String createPayload(OrderPaymentEventPayload payload) {
+        try {
+            return mapper.writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to create OrderPaymentEventPayload for order id: {}", payload.getOrderId(), e);
+            throw new OrderDomainException("Failed to create OrderPaymentEventPayload for order id: " +
+                    payload.getOrderId(), e);
+        }
     }
 
     @Transactional

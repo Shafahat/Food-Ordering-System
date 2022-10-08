@@ -2,17 +2,25 @@ package com.food.ordering.system.order.service.domain.mapper;
 
 import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
+import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.food.ordering.system.domain.valueobject.ProductId;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
+import com.food.ordering.system.domain.valueobject.RestaurantOrderStatus;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
 import com.food.ordering.system.order.service.domain.dto.create.OrderItemDto;
 import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
+import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
+import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventProduct;
+import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import com.food.ordering.system.payment.service.domain.entity.Order;
 import com.food.ordering.system.payment.service.domain.entity.OrderItem;
 import com.food.ordering.system.payment.service.domain.entity.Product;
 import com.food.ordering.system.payment.service.domain.entity.Restaurant;
+import com.food.ordering.system.payment.service.domain.event.OrderCancelledEvent;
+import com.food.ordering.system.payment.service.domain.event.OrderCreatedEvent;
+import com.food.ordering.system.payment.service.domain.event.OrderPaidEvent;
 import com.food.ordering.system.payment.service.domain.valueobject.StreetAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -55,6 +63,41 @@ public class OrderDataMapper {
                                 .subTotal(new Money(orderItemDto.getSubTotal()))
                                 .build())
                 .collect(Collectors.toList());
+    }
+
+    public OrderPaymentEventPayload mapToOrderPaymentEventPayload(OrderCreatedEvent event) {
+        return OrderPaymentEventPayload.builder()
+                .orderId(event.getOrder().getId().getValue().toString())
+                .customerId(event.getOrder().getCustomerId().getValue().toString())
+                .price(event.getOrder().getPrice().getAmount())
+                .createdAt(event.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+                .build();
+    }
+
+    public OrderApprovalEventPayload mapToOrderApprovalEventPayload(OrderPaidEvent event) {
+        return OrderApprovalEventPayload.builder()
+                .orderId(event.getOrder().getId().getValue().toString())
+                .restaurantId(event.getOrder().getRestaurantId().getValue().toString())
+                .restaurantOrderStatus(RestaurantOrderStatus.PAID.name())
+                .products(event.getOrder().getItems().stream().map(orderItem ->
+                        OrderApprovalEventProduct.builder()
+                                .id(orderItem.getProduct().getId().getValue().toString())
+                                .quantity(orderItem.getQuantity())
+                                .build()).toList())
+                .price(event.getOrder().getPrice().getAmount())
+                .createdAt(event.getCreatedAt())
+                .build();
+    }
+
+    public OrderPaymentEventPayload mapToOrderPaymentEventPayload(OrderCancelledEvent event) {
+        return OrderPaymentEventPayload.builder()
+                .orderId(event.getOrder().getId().getValue().toString())
+                .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
+                .customerId(event.getOrder().getCustomerId().getValue().toString())
+                .price(event.getOrder().getPrice().getAmount())
+                .createdAt(event.getCreatedAt())
+                .build();
     }
 
     private StreetAddress mapToStreetAddress(OrderAddress address) {

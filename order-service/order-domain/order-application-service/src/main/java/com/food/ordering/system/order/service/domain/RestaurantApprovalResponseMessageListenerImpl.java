@@ -17,12 +17,12 @@ public class RestaurantApprovalResponseMessageListenerImpl implements Restaurant
     @Override
     public void orderApproved(RestaurantApprovalResponse response) {
         approvalSaga.process(response);
-        log.info("Order Approved: {}", response);
+        log.info("Order Approved: {}", response.getId());
     }
 
     @Override
     public void orderRejected(RestaurantApprovalResponse response) {
         approvalSaga.rollback(response);
-        log.info("Order Rejected: {}", response);
+        log.info("Order Rejected: {}", response.getId());
     }
 }

@@ -1,5 +1,9 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler.approval;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.food.ordering.system.domain.valueobject.OrderStatus;
+import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
 import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import com.food.ordering.system.order.service.domain.ports.output.repository.ApprovalOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
@@ -22,6 +26,7 @@ import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 @RequiredArgsConstructor
 public class ApprovalOutboxHelper {
     private final ApprovalOutboxRepository repository;
+    private final ObjectMapper mapper;
 
     @Transactional(readOnly = true)
     public Optional<List<OrderApprovalOutboxMessage>> getApprovalOutboxMessageByOutboxStatusAndSagaStatus(
@@ -45,8 +50,39 @@ public class ApprovalOutboxHelper {
     }
 
     @Transactional
+    public void saveApprovalOutboxMessage(OrderApprovalEventPayload payload,
+                                          OrderStatus orderStatus,
+                                          SagaStatus sagaStatus,
+                                          OutboxStatus outboxStatus,
+                                          UUID sagaId) {
+
+        save(OrderApprovalOutboxMessage.builder()
+                .id(UUID.randomUUID())
+                .type(ORDER_SAGA_NAME)
+                .createdAt(payload.getCreatedAt())
+                .orderStatus(orderStatus)
+                .sagaStatus(sagaStatus)
+                .outboxStatus(outboxStatus)
+                .sagaId(sagaId)
+                .payload(createPayload(payload))
+                .build());
+
+
+    }
+
+    private String createPayload(OrderApprovalEventPayload payload) {
+        try {
+            return mapper.writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            throw new OrderDomainException("Failed to create payload for JSON message");
+        }
+    }
+
+    @Transactional
     public void deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus,
                                                                        SagaStatus... sagaStatus) {
         repository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatus);
     }
+
+
 }
