@@ -34,7 +34,7 @@ public class OrderCreateCommandHandler {
                 OutboxStatus.STARTED,
                 UUID.randomUUID());
 
-        log.info("Returning CreateOrderResponse with order id : {}", event.getOrder().getId());
+        log.info("Returning CreateOrderResponse with order id : {}", event.getOrder().getId().getValue());
         return response;
     }
 }

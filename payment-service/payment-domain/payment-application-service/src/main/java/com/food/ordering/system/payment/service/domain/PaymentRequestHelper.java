@@ -39,7 +39,6 @@ public class PaymentRequestHelper {
     private final CreditEntryRepository creditEntryRepository;
     private final CreditHistoryRepository creditHistoryRepository;
 
-
     @Transactional
     public void persistPayment(PaymentRequest request) {
 
@@ -95,9 +94,7 @@ public class PaymentRequestHelper {
                 OutboxStatus.STARTED, UUID.fromString(request.getSagaId()));
     }
 
-    private void persistDbObject(Payment payment,
-                                 CreditEntry creditEntry,
-                                 List<CreditHistory> creditHistory,
+    private void persistDbObject(Payment payment, CreditEntry creditEntry, List<CreditHistory> creditHistory,
                                  List<String> failureMessage) {
         paymentRepository.save(payment);
         if (failureMessage.isEmpty()) {

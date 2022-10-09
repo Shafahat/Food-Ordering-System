@@ -11,20 +11,20 @@ spring:
     username: root
     password: root
     driver-class-name: org.postgresql.Driver
-#    hikari:
-#      maximum-pool-size: 25
+  #    hikari:
+  #      maximum-pool-size: 25
   jpa:
     open-in-view: false
-    show-sql: true
+#    show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     #    generate-ddl: true
-#    hibernate:
-#      ddl-auto: validate
+    #    hibernate:
+    #      ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+#        dialect: org.hibernate.dialect.PostgreSQL9Dialect
         #        generate_statistics: true
-        format_sql: true
+#        format_sql: true
   sql:
     init:
       platform: postgres
@@ -35,6 +35,8 @@ spring:
 restaurant-service:
   restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
+  outbox-scheduler-fixed-rate: 10000
+  outbox-scheduler-initial-delay: 10000
 
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092

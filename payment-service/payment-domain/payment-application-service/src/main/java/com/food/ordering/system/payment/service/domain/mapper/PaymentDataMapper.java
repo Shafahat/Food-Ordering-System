@@ -26,7 +26,7 @@ public class PaymentDataMapper {
                 .orderId(event.getPayment().getOrderId().getValue().toString())
                 .customerId(event.getPayment().getCustomerId().getValue().toString())
                 .price(event.getPayment().getPrice().getAmount())
-                .paymentId(event.getPayment().getId().toString())
+                .paymentId(event.getPayment().getId().getValue().toString())
                 .createdAt(event.getCreatedAt())
                 .failureMessages(event.getFailureMessages())
                 .paymentStatus(event.getPayment().getStatus().toString())

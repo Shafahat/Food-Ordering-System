@@ -28,21 +28,21 @@ public class PaymentEventKafkaPublisher implements PaymentResponseMessagePublish
     public void publish(OrderOutboxMessage message, BiConsumer<OrderOutboxMessage, OutboxStatus> callback) {
         OrderEventPayload payload = helper.getOrderEventPayload(message.getPayload(), OrderEventPayload.class);
 
-        String sagaId = message.getSagaId().toString();
 
-        log.info("Publishing payment response for order id: {}", sagaId);
+
+        log.info("Publishing payment response for order id: {}",  message.getSagaId());
 
         try {
-            PaymentResponseAvroModel response = mapper.mapToPaymentResponseAvroModel(sagaId, payload);
+            PaymentResponseAvroModel response = mapper.mapToPaymentResponseAvroModel(message.getSagaId(), payload);
 
-            producer.send(data.getPaymentResponseTopicName(), sagaId, response,
+            producer.send(data.getPaymentResponseTopicName(), message.getSagaId().toString(), response,
                     helper.getKafkaCallback(data.getPaymentResponseTopicName(), response, message,
                             callback, payload.getOrderId(), "PaymentResponseAvroModel"));
 
             log.info("PaymentResponseAvroModel sent to kafka for order id: {} and saga id: {}",
-                    response.getOrderId(), sagaId);
+                    response.getOrderId(), message.getSagaId());
         } catch (Exception e) {
-            log.error("Error while publishing payment response for order id: {}", sagaId, e);
+            log.error("Error while publishing payment response for order id: {}", message.getSagaId(), e);
         }
     }
 }

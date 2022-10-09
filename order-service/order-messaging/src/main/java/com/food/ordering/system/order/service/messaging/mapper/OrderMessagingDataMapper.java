@@ -23,7 +23,7 @@ public class OrderMessagingDataMapper {
     public PaymentResponse mapToPaymentResponse(PaymentResponseAvroModel response) {
         return PaymentResponse.builder()
                 .id(UUID.randomUUID().toString())
-                .sagaId("")
+                .sagaId(response.getSagaId().toString())
                 .paymentId(response.getPaymentId().toString())
                 .customerId(response.getCustomerId().toString())
                 .orderId(response.getOrderId().toString())
@@ -59,7 +59,7 @@ public class OrderMessagingDataMapper {
     }
 
     public RestaurantApprovalRequestAvroModel mapToRestaurantApprovalRequestAvroModel(String sagaId,
-                                                                                    OrderApprovalEventPayload payload) {
+                                                                                      OrderApprovalEventPayload payload) {
         return RestaurantApprovalRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID())
                 .setSagaId(UUID.fromString(sagaId))

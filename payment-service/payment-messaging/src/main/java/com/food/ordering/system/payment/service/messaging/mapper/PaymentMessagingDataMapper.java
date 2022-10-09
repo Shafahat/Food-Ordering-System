@@ -6,10 +6,12 @@ import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentStatus;
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.food.ordering.system.payment.service.domain.outbox.model.OrderEventPayload;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class PaymentMessagingDataMapper {
 
@@ -25,10 +27,12 @@ public class PaymentMessagingDataMapper {
                 .build();
     }
 
-    public PaymentResponseAvroModel mapToPaymentResponseAvroModel(String sagaId, OrderEventPayload payload) {
+    public PaymentResponseAvroModel mapToPaymentResponseAvroModel(UUID sagaId, OrderEventPayload payload) {
+        log.warn("{}", payload.toString());
+
         return PaymentResponseAvroModel.newBuilder()
                 .setId(UUID.randomUUID())
-                .setSagaId(UUID.fromString(sagaId))
+                .setSagaId(sagaId)
                 .setPaymentId(UUID.fromString(payload.getPaymentId()))
                 .setCustomerId(UUID.fromString(payload.getCustomerId()))
                 .setOrderId(UUID.fromString(payload.getOrderId()))
