@@ -3,7 +3,7 @@ package com.food.ordering.system.order.service.data.access.order.adapter;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.data.access.order.mapper.OrderDataAccessMapper;
 import com.food.ordering.system.order.service.data.access.order.repository.OrderJpaRepository;
-import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import com.food.ordering.system.order.test.ports.output.repository.OrderRepository;
 import com.food.ordering.system.payment.service.domain.entity.Order;
 import com.food.ordering.system.payment.service.domain.valueobject.TrackingId;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.food.ordering.system.order.service.messaging.kafka.listener;
 import com.food.ordering.system.kafka.consumer.KafkaConsumerService;
 import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentStatus;
-import com.food.ordering.system.order.service.domain.ports.input.message.listener.payment.PaymentResponseMessageListener;
+import com.food.ordering.system.order.test.ports.input.message.listener.payment.PaymentResponseMessageListener;
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import com.food.ordering.system.payment.service.domain.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
