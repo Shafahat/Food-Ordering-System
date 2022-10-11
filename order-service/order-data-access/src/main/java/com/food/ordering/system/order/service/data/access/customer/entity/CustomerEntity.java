@@ -1,6 +1,5 @@
 package com.food.ordering.system.order.service.data.access.customer.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,9 +16,12 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order_customer_m_view", schema = "customer")
+@Table(name = "customers")
 @Entity
 public class CustomerEntity {
     @Id
     private UUID id;
+    private String username;
+    private String firstName;
+    private String lastName;
 }

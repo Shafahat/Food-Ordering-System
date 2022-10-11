@@ -1,10 +1,10 @@
 package com.food.ordering.system.order.serviec.application.rest;
 
-import com.food.ordering.system.order.test.dto.create.CreateOrderCommand;
-import com.food.ordering.system.order.test.dto.create.CreateOrderResponse;
-import com.food.ordering.system.order.test.dto.track.TrackOrderQuery;
-import com.food.ordering.system.order.test.dto.track.TrackOrderResponse;
-import com.food.ordering.system.order.test.ports.input.service.OrderApplicationService;
+import com.food.ordering.system.order.service.dto.create.CreateOrderCommand;
+import com.food.ordering.system.order.service.dto.create.CreateOrderResponse;
+import com.food.ordering.system.order.service.dto.track.TrackOrderQuery;
+import com.food.ordering.system.order.service.dto.track.TrackOrderResponse;
+import com.food.ordering.system.order.service.ports.input.service.OrderApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -3,8 +3,8 @@ package com.food.ordering.system.order.service.data.access.outbox.payment.adapte
 import com.food.ordering.system.order.service.data.access.outbox.payment.exception.PaymentOutboxNotFoundException;
 import com.food.ordering.system.order.service.data.access.outbox.payment.mapper.PaymentOutboxDataAccessMapper;
 import com.food.ordering.system.order.service.data.access.outbox.payment.repository.PaymentOutboxJpaRepository;
-import com.food.ordering.system.order.test.outbox.model.payment.OrderPaymentOutboxMessage;
-import com.food.ordering.system.order.test.ports.output.repository.PaymentOutboxRepository;
+import com.food.ordering.system.order.service.outbox.model.payment.OrderPaymentOutboxMessage;
+import com.food.ordering.system.order.service.ports.output.repository.PaymentOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.saga.SagaStatus;
 import lombok.RequiredArgsConstructor;

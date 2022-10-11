@@ -2,6 +2,7 @@ package com.food.ordering.system.order.service.messaging.mapper;
 
 import com.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.food.ordering.system.kafka.order.avro.model.CustomerAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
@@ -9,10 +10,11 @@ import com.food.ordering.system.kafka.order.avro.model.Product;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantOrderStatus;
-import com.food.ordering.system.order.test.dto.message.PaymentResponse;
-import com.food.ordering.system.order.test.dto.message.RestaurantApprovalResponse;
-import com.food.ordering.system.order.test.outbox.model.approval.OrderApprovalEventPayload;
-import com.food.ordering.system.order.test.outbox.model.payment.OrderPaymentEventPayload;
+import com.food.ordering.system.order.service.dto.message.CustomerModel;
+import com.food.ordering.system.order.service.dto.message.PaymentResponse;
+import com.food.ordering.system.order.service.dto.message.RestaurantApprovalResponse;
+import com.food.ordering.system.order.service.outbox.model.approval.OrderApprovalEventPayload;
+import com.food.ordering.system.order.service.outbox.model.payment.OrderPaymentEventPayload;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -74,4 +76,14 @@ public class OrderMessagingDataMapper {
                 .setCreatedAt(payload.getCreatedAt().toInstant())
                 .build();
     }
+
+    public CustomerModel mapToCustomerModel(CustomerAvroModel model) {
+        return CustomerModel.builder()
+                .id(model.getId().toString())
+                .username(model.getUsername())
+                .firstName(model.getFirstName())
+                .lastName(model.getLastName())
+                .build();
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.food.ordering.system.order.service.data.access.outbox.payment.mapper;
 
 import com.food.ordering.system.order.service.data.access.outbox.payment.entity.PaymentOutboxEntity;
-import com.food.ordering.system.order.test.outbox.model.payment.OrderPaymentOutboxMessage;
+import com.food.ordering.system.order.service.outbox.model.payment.OrderPaymentOutboxMessage;
 import org.springframework.stereotype.Component;
 
 @Component

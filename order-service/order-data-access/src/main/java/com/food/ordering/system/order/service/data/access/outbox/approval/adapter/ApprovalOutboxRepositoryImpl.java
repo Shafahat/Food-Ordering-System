@@ -3,8 +3,8 @@ package com.food.ordering.system.order.service.data.access.outbox.approval.adapt
 import com.food.ordering.system.order.service.data.access.outbox.approval.exception.ApprovalOutboxNotFoundException;
 import com.food.ordering.system.order.service.data.access.outbox.approval.mapper.ApprovalOutboxDataAccessMapper;
 import com.food.ordering.system.order.service.data.access.outbox.approval.repository.ApprovalOutboxJpaRepository;
-import com.food.ordering.system.order.test.outbox.model.approval.OrderApprovalOutboxMessage;
-import com.food.ordering.system.order.test.ports.output.repository.ApprovalOutboxRepository;
+import com.food.ordering.system.order.service.outbox.model.approval.OrderApprovalOutboxMessage;
+import com.food.ordering.system.order.service.ports.output.repository.ApprovalOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.saga.SagaStatus;
 import lombok.RequiredArgsConstructor;
