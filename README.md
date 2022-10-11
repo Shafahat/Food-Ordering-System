@@ -32,24 +32,24 @@ ___
     - SAGA (Orchestration):
 
       <p style="text-align:center;">
-        <img src="images/Saga.png" alt="Saga" width="90%" class="center"/>
+        <img src="images/Saga.png" alt="Saga" width="60%" class="center"/>
       </p>
 
     - OUTBOX:
   
       <p style="text-align:center;">
-        <img src="images/Outbox.png" alt="Outbox" width="90%" class="center"/>
+        <img src="images/Outbox.png" alt="Outbox" width="60%" class="center"/>
       </p>
   
     - CQRS:
   
       <p style="text-align:center;">
-        <img src="images/CQRS.png" alt="CQRS" width="90%" class="center"/>
+        <img src="images/CQRS.png" alt="CQRS" width="60%" class="center"/>
       </p>
     
     
 - Maven modules:
  
     <p style="text-align:center;">
-        <img src="images/MavenModuleTree.png" alt="MavenModuleTree" width="90%" class="center"/>
+        <img src="images/MavenModuleTree.png" alt="MavenModuleTree" width="60%" class="center"/>
     </p>
